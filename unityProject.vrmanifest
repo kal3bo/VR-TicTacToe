@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.vrtictactoe.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "C:\\Users\\Student\\Documents\\GitHub\\VR-TicTacToe\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "VR Tic Tac Toe [Testing]"
+        }
+      }
+    }
+  ]
+}
