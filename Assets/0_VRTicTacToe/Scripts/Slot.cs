@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Normal.Realtime;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR.InteractionSystem;
@@ -7,8 +8,14 @@ public class Slot : MonoBehaviour
 {
     [SerializeField] private BoxHandler boxHandler;
     [SerializeField] private StartGame startGame;
+    private RealtimeTransform realtimeTransform;
     private bool isScriptAvailable = true;
-    
+
+    private void Awake()
+    {
+        realtimeTransform = gameObject.GetComponent<RealtimeTransform>();
+    }
+
     /// <summary>
     /// Once a piece reaches a slot on board, the piece will attach to the slot position.
     /// The pice will stop being grabbable and this script will stop working.
@@ -26,18 +33,17 @@ public class Slot : MonoBehaviour
             startGame.ToggleTurn();
         }
     }
-
     /// <summary>
     /// Restarting the game will restar the pieces position and make the script available again.
     /// </summary>
     public void Restart()
     {
-        gameObject.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
-        gameObject.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        realtimeTransform.enabled = false;
         gameObject.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
         StartCoroutine(Wait(1));
         gameObject.GetComponent<Throwable>().forceDetach = false;
         isScriptAvailable = true;
+        realtimeTransform.enabled = true;
     }
 
     IEnumerator Wait(int seconds)
