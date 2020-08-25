@@ -6,7 +6,7 @@ public class SyncHidden : MonoBehaviour
 {
     [SerializeField] GameObject objectToSync;
 
-    // Update is called once per frame
+    // Everytime a slot is occupied will hide both available meshes:
     private void Update()
     {
         if (!objectToSync.activeSelf)
