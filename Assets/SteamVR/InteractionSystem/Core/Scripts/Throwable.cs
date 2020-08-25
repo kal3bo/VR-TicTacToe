@@ -136,25 +136,27 @@ namespace Valve.VR.InteractionSystem
         //-------------------------------------------------
         protected virtual void OnAttachedToHand( Hand hand )
 		{
-            //Debug.Log("<b>[SteamVR Interaction]</b> Pickup: " + hand.GetGrabStarting().ToString());
+            if (!forceDetach)
+            {
+                //Debug.Log("<b>[SteamVR Interaction]</b> Pickup: " + hand.GetGrabStarting().ToString());
 
-            hadInterpolation = this.rigidbody.interpolation;
+                hadInterpolation = this.rigidbody.interpolation;
 
-            attached = true;
+                attached = true;
 
-			onPickUp.Invoke();
+                onPickUp.Invoke();
 
-			hand.HoverLock( null );
+                hand.HoverLock(null);
 
-            rigidbody.interpolation = RigidbodyInterpolation.None;
+                rigidbody.interpolation = RigidbodyInterpolation.None;
 
-            if (velocityEstimator != null)
-		        velocityEstimator.BeginEstimatingVelocity();
+                if (velocityEstimator != null)
+                    velocityEstimator.BeginEstimatingVelocity();
 
-			attachTime = Time.time;
-			attachPosition = transform.position;
-			attachRotation = transform.rotation;
-
+                attachTime = Time.time;
+                attachPosition = transform.position;
+                attachRotation = transform.rotation;
+            }
 		}
 
 
@@ -228,11 +230,12 @@ namespace Valve.VR.InteractionSystem
         }
 
         //-------------------------------------------------
+        public bool forceDetach = false;
         protected virtual void HandAttachedUpdate(Hand hand)
         {
 
 
-            if (hand.IsGrabEnding(this.gameObject))
+            if (hand.IsGrabEnding(this.gameObject) || forceDetach)
             {
                 hand.DetachObject(gameObject, restoreOriginalParent);
 
